@@ -11,7 +11,8 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.817.0",
     "@aws-sdk/s3-request-presigner": "^3.817.0",
-    "@niivue/niivue": "^0.57.0",
+    "@niivue/niivue": "^0.47.0",
+     "niivue-react": "github:niivue/niivue-react",
     "@tailwindcss/forms": "^0.5.10",
     "aws-sdk": "^2.1692.0",
     "lucide-react": "^0.511.0",
