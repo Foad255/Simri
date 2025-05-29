@@ -187,7 +187,7 @@ const UploadForm: React.FC = () => {
           {selectedSamplePatient ? `Review Sample: ${selectedSamplePatient.displayName}` : 'Upload New Patient MRI Data'}
         </h2>
         <Button
-            variant="outline"
+            variant="secondary"
             onClick={() => {
                 if (selectedSamplePatient) {
                     clearForm(true);
@@ -325,7 +325,7 @@ const UploadForm: React.FC = () => {
             SAMPLE_PATIENTS.map(sample => (
               <Button
                 key={sample.patientId}
-                variant="outline"
+                variant="secondary"
                 className="w-full justify-start text-left py-3"
                 onClick={() => loadSamplePatient(sample)}
               >

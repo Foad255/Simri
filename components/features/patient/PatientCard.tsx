@@ -16,7 +16,7 @@ interface PatientCardProps {
 
 const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
   const [imgSrc, setImgSrc] = useState(
-    patient.display_thumbnail_url || patient.mriThumb || ERROR_IMAGE_THUMB // Prioritize display_thumbnail_url if available, then mriThumb, then fallback
+     patient.mriThumb || ERROR_IMAGE_THUMB // Prioritize display_thumbnail_url if available, then mriThumb, then fallback
   );
 
   return (
@@ -46,8 +46,8 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
           </Link>
         </h3>
         <div className="mt-auto">
-          <Link href={`/patient/${patient.public_id}`} passHref legacyBehavior>
-            <Button as="a" className="w-full text-base py-2" icon={Eye} variant="secondary" iconClassName="w-5 h-5">
+          <Link href={`/patient/${patient.public_id}`}>
+            <Button className="w-full text-base py-2" icon={Eye} variant="secondary" iconClassName="w-5 h-5">
               View Details
             </Button>
           </Link>

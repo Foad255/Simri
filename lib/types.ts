@@ -7,12 +7,14 @@ export interface ClinicalData {
 }
 
 export interface SimilarPatient {
-  public_id: string;
+  patient_id: string;
   score: number;
 }
 
 export interface Patient {
+  patient_id: string;
   public_id: string;
+  clinical?: ClinicalData;
   mriThumb: string; // URL to a thumbnail
   mriData?: { // Optional: for actual MRI data links or identifiers for MRIViewer
     t1c: string; // URL or path to T1c NIfTI file/slices
@@ -24,7 +26,7 @@ export interface Patient {
 }
 
 export interface UploadClinicalData {
-  public_id: string;
+  patientId: string
   age: string; // Input might be string initially
   sex: "M" | "F" | "Other";
   diagnosis: string;

@@ -48,13 +48,13 @@ const createSignedUrl = async (key: string, expiresIn: number = 3600): Promise<s
   }
 };
 
-export async function GET(request: Request, context: { params: { patientId: string } }) {
-  // No need to await context.params, it's directly available.
-  const patientId = context.params.patientId;
+export async function GET(request: Request, context: { params: Promise<{ patientId: string }> }) {
+  const { patientId } = await context.params;
 
   if (!patientId) {
     return NextResponse.json({ message: 'Patient ID is required' }, { status: 400 });
   }
+
 
   try {
     const client = await clientPromise;

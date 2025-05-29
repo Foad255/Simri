@@ -4,7 +4,6 @@ const uri = 'mongodb+srv://f30071779:hPEt4nPLo3A8R38H@cluster0.mxftzon.mongodb.n
 
 const options = {
   tls: true,
-  useUnifiedTopology: true,
 };
 
 let client: MongoClient;

@@ -1,11 +1,11 @@
 // simri-app/components/ui/Card.tsx
-import React, { ReactNode } from 'react';
+import React, { ElementType, ReactNode } from 'react';
 
 
 interface CardProps {
   children: ReactNode;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
 }
 
 const Card: React.FC<CardProps> = ({ children, className = '', as: Component = 'div' }) => (

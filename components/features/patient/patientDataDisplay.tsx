@@ -37,13 +37,12 @@ interface PatientDataDisplayProps {
 }
 
 const PatientDataDisplay: React.FC<PatientDataDisplayProps> = ({ title, patientDetails }) => {
-  const niivueContainerRef = useRef<HTMLDivElement>(null);
+  const niivueContainerRef = useRef<HTMLCanvasElement>(null);
+
   const niivueInstance = useRef<Niivue | null>(null);
 
 
   useEffect(() => {
-    console.log('Initializing Niivue viewer for patient:', patientDetails);
-    console.log('Initializing Niivue viewer for patient:', patientDetails.mri_files_urls);
     if (niivueContainerRef.current && patientDetails.mri_files_urls) {
       if (!niivueInstance.current) {
         niivueInstance.current = new Niivue({
@@ -79,10 +78,9 @@ const PatientDataDisplay: React.FC<PatientDataDisplayProps> = ({ title, patientD
         niivueInstance.current.loadVolumes(volumes);
       } else {
         // Clear viewer if no volumes are available
-        niivueInstance.current.setVolumes([]);
       }
     }
-  }, [patientDetails.mri_files_urls]); // Re-run effect if MRI URLs change
+  }, [patientDetails]); // Re-run effect if MRI URLs change
   return (
     <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-200 h-full flex flex-col">
       <h2 className="text-xl font-semibold mb-4 text-gray-800">{title}</h2>

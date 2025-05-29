@@ -1,11 +1,9 @@
-// simri-app/next.config.mjs
+import type { NextConfig } from 'next';
+import type { WebpackConfigContext } from 'next/dist/server/config-shared';
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
     ignoreDuringBuilds: true,
   },
   reactStrictMode: true,
@@ -25,13 +23,14 @@ const nextConfig = {
       },
     ],
   },
-
-  // Add this section to avoid fs issues in browser builds
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
+  webpack: (config, context: WebpackConfigContext) => {
+    if (!context.isServer) {
+      config.resolve = {
+        ...config.resolve,
+        fallback: {
+          ...config.resolve?.fallback,
+          fs: false,
+        },
       };
     }
     return config;

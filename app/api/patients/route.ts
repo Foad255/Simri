@@ -118,7 +118,6 @@ async function findSimilarPatients(
 async function generateAndUploadThumbnail(
     sourceNiftiS3Key: string, // s3 key of the source nifti (e.g., a seg file)
     patientId: string, // patientId to make target key unique
-    targetS3Bucket: string
 ): Promise<string | undefined> {
     // This is a placeholder. Implement actual thumbnail generation (e.g., call a lambda, use a library).
     // For now, it assumes a naming convention if a source is provided.
@@ -249,7 +248,7 @@ export async function POST(request: Request) {
         if (sourceKeyForThumbnail) {
             try {
                 // Pass patientId for unique target key, and the S3_BUCKET_NAME
-                displayThumbnailS3Key = await generateAndUploadThumbnail(sourceKeyForThumbnail, patientId, S3_BUCKET_NAME!);
+                displayThumbnailS3Key = await generateAndUploadThumbnail(sourceKeyForThumbnail, patientId);
                 if (displayThumbnailS3Key) {
                     console.log(`Intended thumbnail S3 key for patient ${patientId}: ${displayThumbnailS3Key}`);
                 }

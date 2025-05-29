@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 
 interface MRIViewerProps {
   patientId: string;
+  MRIThumb: string;
   initialModality?: MriModality;
   // mriData?: Patient['mriData'];
 }

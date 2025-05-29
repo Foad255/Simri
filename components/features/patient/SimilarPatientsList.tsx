@@ -42,8 +42,8 @@ const SimilarPatientsList: React.FC<SimilarPatientsListProps> = ({ currentPatien
                   {simPatient.score}
                 </p>
               </div>
-              <Link href={`/compare/${currentPatientId}/${simPatient.patient_id}`} passHref legacyBehavior>
-                <Button as="a" variant="ghost" icon={ChevronsLeftRight} className="text-sm px-2.5 py-1">
+              <Link href={`/compare/${currentPatientId}/${simPatient.patient_id}`}>
+                <Button  variant="ghost" icon={ChevronsLeftRight} className="text-sm px-2.5 py-1">
                   Compare
                 </Button>
               </Link>

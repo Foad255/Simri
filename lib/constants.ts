@@ -7,6 +7,7 @@ import { MriModality, MriModalityKey, UploadClinicalData } from './types'; // En
 export interface SamplePatient extends UploadClinicalData {
   displayName: string;
   s3Keys: Record<MriModalityKey, string>;
+  External: boolean;
   // patientId, age, sex, diagnosis are from UploadClinicalData
   // Ensure 'age' is a string here if UploadClinicalData expects it as string initially.
 }
