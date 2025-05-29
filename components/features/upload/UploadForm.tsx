@@ -141,7 +141,8 @@ const UploadForm: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`/api/patients`, {
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+      const response = await fetch(`${baseUrl}/api/patients`, {
         method: 'POST',
         body: payloadBody,
         headers: requestHeaders,
