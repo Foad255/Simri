@@ -73,46 +73,74 @@ async function generateEmbeddingViaMLService(
     return result.embedding;
 }
 
+// Assuming this function is in a file like lib/mongodb.ts or a similar utility file
+// where clientPromise, MONGODB_DB_NAME, MONGODB_COLLECTION_NAME are defined.
+
 async function findSimilarPatients(
-    embedding: number[],
-    patientIdToExclude: string,
-    limit: number = 3
+  embedding: number[],
+  patientIdToExclude: string,
+  limit: number = 10 // Increased default limit to 10 for more relevant results
 ): Promise<Array<{ patient_id: string; score: number }>> {
-    console.log(`Finding similar patients for ${patientIdToExclude} (excluding self).`);
-    const client = await clientPromise;
-    const db = client.db(MONGODB_DB_NAME);
-    const scansCollection = db.collection(MONGODB_COLLECTION_NAME);
-    const pipeline = [
-        {
-            $vectorSearch: {
-                index: 'vector_index', // IMPORTANT: Your Atlas Vector Search index name
-                path: 'embedding', // Field containing the vector
-                queryVector: embedding,
-                numCandidates: Math.max(50, limit * 10), // Adjust as needed
-                limit: limit + 1, // Fetch one more to exclude self if present
-            },
-        },
-        { $match: { patient_id: { $ne: patientIdToExclude } } },
-        { $limit: limit },
-        {
-            $project: {
-                _id: 0,
-                patient_id: 1,
-                score: { $meta: 'vectorSearchScore' },
-            },
-        },
-    ];
-    try {
-        const similarDocs = await scansCollection.aggregate(pipeline).toArray();
-        // @ts-ignore
-        return similarDocs as Array<{ patient_id: string; score: number }>;
-    } catch (error) {
-        console.error("Error during vector search:", error);
-        if (error instanceof Error && (error.message.includes("index not found") || error.message.includes("no such index"))) {
-            console.error("Vector search index 'vector_index_embedding' might be missing or misconfigured in MongoDB Atlas.");
-        }
-        return [];
-    }
+  console.log(`Finding similar patients for ${patientIdToExclude} (excluding self). Requested limit: ${limit}`);
+
+  // Basic validation for embedding size
+  if (!embedding || embedding.length !== 256) {
+      console.error("Invalid embedding provided: Must be a 256-dimensional array.");
+      return [];
+  }
+
+  const client = await clientPromise;
+  const db = client.db(MONGODB_DB_NAME);
+  const scansCollection = db.collection(MONGODB_COLLECTION_NAME);
+
+  // MongoDB Atlas Vector Search pipeline
+  const pipeline = [
+      {
+          $vectorSearch: {
+              index: 'vector_index',
+              path: 'embedding',
+              queryVector: embedding,
+              numCandidates: Math.max(50, limit * 10), // Fetch more candidates to ensure quality results after filtering
+              limit: limit + 1, // Fetch one more than needed to easily exclude the patient itself
+          },
+      },
+      {
+          // This $match stage now handles excluding the patient itself
+          $match: { patient_id: { $ne: patientIdToExclude } }
+      },
+      {
+          // Ensure we only return the exact 'limit' number of results after exclusion
+          $limit: limit
+      },
+      {
+          // Project the necessary fields: patient_id and the search score
+          $project: {
+              _id: 0, // Exclude the MongoDB internal _id
+              patient_id: { $ifNull: ["$public_id", "$patient_id"] }, // This ensures you get the public_id or fallback
+              score: { $meta: 'vectorSearchScore' }, // Include the similarity score
+          },
+      },
+  ];
+
+  try {
+      const similarDocs = await scansCollection.aggregate(pipeline).toArray();
+      console.log(`Found ${similarDocs.length} similar patients for ${patientIdToExclude}.`);
+
+      // Assert type for TypeScript
+      return similarDocs as Array<{ patient_id: string; score: number }>;
+  } catch (error) {
+      console.error("Error during vector search:", error);
+
+      // More specific error messages for debugging
+      if (error instanceof Error) {
+          if (error.message.includes("index not found") || error.message.includes("no such index")) {
+              console.error("🚨 CRITICAL: MongoDB Atlas Vector Search index 'vector_index' (or 'vector_index_embedding') might be missing or misconfigured. Ensure it's active and targets the 'embedding' field with 256 dimensions.");
+          } else if (error.message.includes("dimensions")) {
+               console.error("🚨 CRITICAL: Embedding dimensions mismatch! Ensure your Atlas Vector Search index is configured for 256-dimensional vectors.");
+          }
+      }
+      return [];
+  }
 }
 
 async function generateAndUploadThumbnail(

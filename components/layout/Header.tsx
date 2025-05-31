@@ -23,9 +23,15 @@ const Header = () => {
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2.5 group" aria-label="Go to Simri Homepage">
           <Brain className="w-8 h-8 text-blue-600 group-hover:text-blue-700 transition-colors" />
-          <h1 className="text-2xl font-semibold text-gray-800 group-hover:text-blue-700 transition-colors">
-            Simri
-          </h1>
+          {/* Wrap h1 and Beta span in a div for better alignment control if needed */}
+          <div className="flex items-baseline"> {/* Ensures "Simri" and "Beta" align nicely at their baseline */}
+            <h1 className="text-2xl font-semibold text-gray-800 group-hover:text-blue-700 transition-colors">
+              Simri
+            </h1>
+            <span className="ml-1.5 text-xs font-medium text-white bg-blue-500 px-1.5 py-0.5 rounded-full">
+              Beta
+            </span>
+          </div>
         </Link>
 
         {/* Navigation */}

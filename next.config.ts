@@ -21,8 +21,15 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'glioblastoma001.s3.eu-north-1.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
+
   webpack: (config, context: WebpackConfigContext) => {
     if (!context.isServer) {
       config.resolve = {

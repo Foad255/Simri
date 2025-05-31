@@ -1,17 +1,17 @@
+// app/HomePageClient.tsx
 'use client';
 
 import {
   ArrowRight,
   BarChart3,
   Brain,
-  Database,
+  Database, // Keep if still using for other sections or want to add a new feature
   Dna,
   FileUp,
   Lightbulb,
   Search,
   UploadCloud,
-  Users,
-  Zap
+  Users
 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
@@ -25,11 +25,11 @@ const SectionTitle = ({ children, className }: { children: React.ReactNode; clas
 );
 
 // FEATURE CARD
-const FeatureCard = ({ icon: Icon, title, description }: { icon: React.ElementType; title: string; description: string }) => (
+const FeatureCard = ({ title, description }: { icon: React.ElementType; title: string; description: string }) => (
   <div className="bg-white p-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-slate-200/70 group hover:border-teal-400">
-    <div className="bg-gradient-to-br from-sky-600 via-teal-600 to-emerald-500 text-white w-16 h-16 rounded-xl flex items-center justify-center mb-7 shadow-md group-hover:shadow-lg transition-shadow duration-300 group-hover:shadow-teal-500/40">
+    {/* <div className="bg-gradient-to-br from-sky-600 via-teal-600 to-emerald-500 text-white w-16 h-16 rounded-xl flex items-center justify-center mb-7 shadow-md group-hover:shadow-lg transition-shadow duration-300 group-hover:shadow-teal-500/40">
       <Icon className="w-8 h-8 transition-transform duration-300 group-hover:scale-110" />
-    </div>
+    </div> */}
     <h3 className="text-xl font-semibold mb-3 text-slate-800">{title}</h3>
     <p className="text-slate-600 text-sm leading-relaxed">{description}</p>
   </div>
@@ -40,7 +40,6 @@ const WorkflowStep = ({
   number,
   title,
   description,
-  icon: Icon
 }: {
   number: string;
   title: string;
@@ -53,7 +52,7 @@ const WorkflowStep = ({
     </div>
     <div className="flex-1">
       <div className="flex items-center mb-2">
-        <Icon className="w-7 h-7 text-sky-600 mr-3 group-hover:text-teal-600" />
+        {/* <Icon className="w-7 h-7 text-sky-600 mr-3 group-hover:text-teal-600" /> */}
         <h4 className="text-lg font-semibold text-slate-800">{title}</h4>
       </div>
       <p className="text-slate-600 mt-1 text-sm leading-relaxed">{description}</p>
@@ -66,13 +65,13 @@ const iconMap = {
   Dna,
   Brain,
   Search,
-  Zap,
   Database,
-  Users
+  Users,
+  Lightbulb, // Added Lightbulb to map
 };
 
 export type Feature = {
-  iconName: 'Dna' | 'Brain' | 'Search' | 'Zap' | 'Database' | 'Users';
+  iconName: 'Dna' | 'Brain' | 'Search' | 'Database' | 'Users' | 'Lightbulb'; // Updated type
   title: string;
   description: string;
 };
@@ -89,25 +88,26 @@ export default function HomePageClient({ features }: Props) {
         <section className="relative bg-gradient-to-br from-blue-700 via-sky-700 to-teal-600 py-32 md:py-44 text-white border-b border-teal-800 overflow-hidden">
           <div className="container mx-auto px-6 text-center relative z-10">
             <Brain className="w-24 h-24 md:w-32 md:h-32 text-sky-300/90 mx-auto mb-10 animate-pulse-gentle" />
+
             <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-7">
-              AI-Powered Search for <br />
-              <span className="animated-shimmer-text py-1">Similar Brain Tumor Patients</span>
+              Discover Insights in <br />
+              <span className="animated-shimmer-text py-1">Brain MRI Data</span>
             </h1>
             <p className="text-lg md:text-xl text-sky-100/90 max-w-3xl mx-auto mb-14">
-              Upload multi-sequence brain MRIs and instantly discover similar cases using deep learning and vector search — all visualized in 3D.
+              Explore a vast dataset of brain MRIs, find similar cases instantly, and compare them side-by-side with intuitive 3D visualization.
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center space-y-5 sm:space-y-0 sm:space-x-6">
               <Link
-                href="/upload"
+                href="/explore" // Changed to /explore to emphasize Browse existing data
                 className="bg-gradient-to-r from-sky-600 via-teal-500 to-emerald-500 text-white px-10 py-4 rounded-lg font-semibold text-lg shadow-xl hover:shadow-2xl hover:shadow-teal-500/40 transition-all duration-300 transform hover:scale-105 flex items-center group w-full sm:w-auto justify-center animated-gradient-bg-hover"
               >
-                Upload MRI Scans <FileUp className="w-5 h-5 ml-3" />
+                Explore Patient Data <ArrowRight className="w-5 h-5 ml-3" /> {/* Changed icon to ArrowRight for exploration */}
               </Link>
               <Link
-                href="#how-it-works"
+                href="/upload" // Added a clear path for uploading
                 className="bg-transparent text-white border-2 border-sky-400/70 px-10 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-teal-600 transition-all duration-300 transform hover:scale-105 w-full sm:w-auto group flex items-center"
               >
-                Learn How It Works <ArrowRight className="w-5 h-5 ml-3" />
+                Upload Your MRI <FileUp className="w-5 h-5 ml-3" />
               </Link>
             </div>
           </div>
@@ -117,22 +117,22 @@ export default function HomePageClient({ features }: Props) {
         <section className="py-24 md:py-32 bg-white">
           <div className="container mx-auto px-6">
             <div className="text-center mb-20 md:mb-24">
-              <h2 className="text-4xl font-bold text-slate-800 mb-5">Why Simri?</h2>
+              <h2 className="text-4xl font-bold text-slate-800 mb-5">Unlocking the Power of Imaging Data</h2>
               <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-                Medical imaging researchers face a growing flood of data — Simri helps you explore it intelligently.
+                Simri transforms how you interact with vast collections of medical imaging, making discovery intuitive and data-driven.
               </p>
             </div>
             <div className="grid md:grid-cols-2 gap-10 md:gap-14">
               <div className="bg-slate-50/80 p-8 rounded-xl shadow-xl border border-slate-200/70 hover:shadow-2xl">
-                <h3 className="text-2xl font-semibold text-slate-800 mb-5">The Problem</h3>
+                <h3 className="text-2xl font-semibold text-slate-800 mb-5">The Traditional Challenge</h3>
                 <p className="text-slate-600 leading-relaxed text-base">
-                  Sifting through thousands of MRI scans to find relevant cases is slow, manual, and subjective. It limits discovery and slows research.
+                  Manually sifting through thousands of complex MRI scans to find specific cases is time-consuming, prone to human bias, and bottlenecks clinical research and patient care.
                 </p>
               </div>
               <div className="bg-gradient-to-br from-sky-600 via-teal-600 to-emerald-600 text-white p-8 rounded-xl shadow-2xl">
-                <h3 className="text-2xl font-semibold mb-5">The Simri Solution</h3>
+                <h3 className="text-2xl font-semibold mb-5">The Simri Advantage</h3>
                 <p className="text-sky-50 leading-relaxed text-base">
-                  Upload your scan and Simri uses deep learning to generate a brain fingerprint. Then it searches thousands of cases using MongoDB vector search to show you similar patients — side by side, with interactive 3D visuals.
+                  Simri empowers you to swiftly explore existing patient cohorts or upload your own MRI to find radiologically similar cases. Our AI transforms raw scans into searchable &quot;brain fingerprints,&quot; instantly revealing patterns and connections you&apos;d otherwise miss.
                 </p>
               </div>
             </div>
@@ -143,32 +143,32 @@ export default function HomePageClient({ features }: Props) {
         <section id="how-it-works" className="py-24 md:py-32 bg-slate-50 border-t border-b border-slate-200/80">
           <div className="container mx-auto px-6">
             <SectionTitle>How Simri Works</SectionTitle>
-            <p className="text-center text-slate-600 max-w-3xl mx-auto mb-20 text-lg">From raw MRIs to real patient insight in four steps.</p>
+            <p className="text-center text-slate-600 max-w-3xl mx-auto mb-20 text-lg">From raw MRIs to insightful patient comparisons in four seamless steps.</p>
             <div className="max-w-3xl mx-auto relative">
               <div className="absolute left-[31px] md:left-[35px] top-16 bottom-16 w-1.5 bg-gradient-to-b from-sky-400/40 via-teal-500 to-emerald-400/40 hidden md:block rounded-full opacity-80 animate-pulse-gentle" />
               <div className="space-y-12 md:space-y-14 relative z-10">
                 <WorkflowStep
                   number="1"
-                  title="Upload Scans"
-                  description="Upload T1c, T1n, T2f, T2w, and segmentation masks via secure AWS S3."
-                  icon={UploadCloud}
+                  title="Visualize Existing Patients" // New Step 1: Browse existing data
+                  description="Begin by exploring a rich dataset of anonymized brain MRI cases already in Simri."
+                  icon={Users} // Using Users icon
                 />
                 <WorkflowStep
                   number="2"
-                  title="Embedding Generation"
-                  description="The TIEP model generates a deep embedding vector representing the scan."
-                  icon={Brain}
+                  title="Or Upload Your Scan" // Former Step 1, now Step 2
+                  description="Securely upload your multi-sequence brain MRI (T1c, T1n, T2f, T2w, and segmentation masks)."
+                  icon={UploadCloud}
                 />
                 <WorkflowStep
                   number="3"
-                  title="Vector Similarity Search"
-                  description="We search across the BraTS2025 dataset using MongoDB’s fast vector index."
-                  icon={Search}
+                  title="AI-Powered Matching" // Combines embedding & search conceptually
+                  description="Our deep learning model generates a unique 'brain fingerprint' for your scan, which is then used to find the most similar cases across our database."
+                  icon={Search} // Using Search icon
                 />
                 <WorkflowStep
                   number="4"
-                  title="Compare in 3D Viewer"
-                  description="Matched cases are shown next to your scan in our Niivue-based 3D viewer."
+                  title="Compare & Analyze in 3D" // Former Step 4
+                  description="Instantly view your scan alongside matched similar cases in our interactive 3D viewer for detailed comparison."
                   icon={BarChart3}
                 />
               </div>
@@ -179,7 +179,7 @@ export default function HomePageClient({ features }: Props) {
         {/* FEATURES */}
         <section className="py-24 md:py-32 bg-white">
           <div className="container mx-auto px-6">
-            <SectionTitle>Core Capabilities</SectionTitle>
+            <SectionTitle>How Simri Empowers You</SectionTitle> {/* Rephrased title */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
               {features.map(({ iconName, title, description }) => {
                 const Icon = iconMap[iconName];
@@ -193,16 +193,18 @@ export default function HomePageClient({ features }: Props) {
         <section className="py-28 md:py-36 bg-gradient-to-br from-blue-700 via-sky-700 to-teal-600 text-white">
           <div className="container mx-auto px-6 text-center">
             <Lightbulb className="w-20 h-20 md:w-24 md:h-24 text-sky-300/90 mx-auto mb-10 opacity-90 animate-pulse-gentle" />
-            <h2 className="text-4xl md:text-5xl font-bold mb-8">From Imaging to Insight</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-8">Ready to Unlock Patient Insights?</h2>
             <p className="text-lg md:text-xl text-sky-100/90 max-w-3xl mx-auto mb-14 leading-relaxed">
-              Simri helps you turn complex brain MRI scans into visual, searchable intelligence — accelerating research, discovery, and diagnosis.
+              Experience the future of medical image analysis. Explore a curated dataset or upload your own MRI to see Simri&apos;s power firsthand.
             </p>
-            <Link
-              href="/explore"
-              className="bg-white text-sky-700 px-10 py-4 rounded-lg font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group flex items-center justify-center max-w-md mx-auto animated-gradient-bg-hover hover:from-sky-400 hover:via-teal-400 hover:to-emerald-500 hover:text-white"
-            >
-              Try the Demo <ArrowRight className="w-5 h-5 ml-3" />
-            </Link>
+            <div className="flex flex-col sm:flex-row justify-center items-center space-y-5 sm:space-y-0 sm:space-x-6">
+              <Link
+                href="/upload"
+                className="bg-white text-sky-700 px-10 py-4 rounded-lg font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group flex items-center justify-center max-w-md mx-auto animated-gradient-bg-hover hover:from-sky-400 hover:via-teal-400 hover:to-emerald-500 hover:text-white"
+              >
+                Upload Your Own MRI <FileUp className="w-5 h-5 ml-3" />
+              </Link>
+            </div>
           </div>
         </section>
       </div>

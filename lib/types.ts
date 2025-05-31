@@ -21,6 +21,7 @@ export interface Patient {
     t1n: string; // URL or path to T1n NIfTI file/slices
     t2f: string; // URL or path to T2f NIfTI file/slices
     t2w: string; // URL or path to T2w NIfTI file/slices
+    seg: string;
   };
   similar_patients: SimilarPatient[];
 }
@@ -32,13 +33,16 @@ export interface UploadClinicalData {
   diagnosis: string;
 }
 
-export type MriModalityKey = 't1c' | 't1n' | 't2f' | 't2w';
+export type MriModalityKey = 't1c' | 't1n' | 't2f' | 't2w' | 'seg';
 
 export interface MriFiles {
   t1c: File | null;
   t1n: File | null;
   t2f: File | null;
   t2w: File | null;
+  seg: File | null;
 }
 
-export type MriModality = "T1c" | "T1n" | "T2f" | "T2w";
+export type MriModality = "T1c" | "T1n" | "T2f" | "T2w" | "Seg";
+
+
