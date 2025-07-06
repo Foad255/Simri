@@ -15,6 +15,7 @@ const HomePage = () => {
     let particles: Particle[] = [];
 
     function resizeCanvas() {
+      if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
@@ -28,8 +29,8 @@ const HomePage = () => {
       color: string;
 
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * (canvas?.width ?? window.innerWidth);
+        this.y = Math.random() * (canvas?.height ?? window.innerHeight);
         this.vx = (Math.random() - 0.5) * 0.2;
         this.vy = (Math.random() - 0.5) * 0.2;
         this.radius = Math.random() * 300 + 200; // softer gradients, bigger glow
@@ -40,8 +41,8 @@ const HomePage = () => {
         this.x += this.vx;
         this.y += this.vy;
 
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        if (this.x < 0 || (canvas?.width !== undefined && this.x > canvas.width)) this.vx *= -1;
+        if (this.y < 0 || (canvas && this.y > canvas.height)) this.vy *= -1;
       }
 
       draw() {
@@ -62,7 +63,7 @@ const HomePage = () => {
     }
 
     function animate() {
-      if (!ctx) return;
+      if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       particles.forEach((p) => {
         p.update();
