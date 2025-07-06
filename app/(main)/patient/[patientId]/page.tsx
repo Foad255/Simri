@@ -1,5 +1,6 @@
 // app/(main)/patient/[patientId]/page.tsx
 
+import { redirect } from 'next/navigation';
 import PatientComparisonClient from './PatientComparisonClient';
 
 interface PatientDetails {
@@ -22,6 +23,11 @@ type PatientPageProps = {
 
 
 const PatientComparisonPage = async ({ params }: PatientPageProps) => {
+    if ( 1 === 1 )  {
+      redirect('/');
+    }
+
+
   const resolvedParams = await params; // await the promise
   const initialPatientId = resolvedParams.patientId;
 

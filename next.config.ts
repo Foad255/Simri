@@ -3,6 +3,7 @@ import type { WebpackConfigContext } from 'next/dist/server/config-shared';
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
+
   eslint: {
     ignoreDuringBuilds: true,
   },

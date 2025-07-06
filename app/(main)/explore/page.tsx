@@ -2,6 +2,8 @@ import { Patient } from '@/lib/types';
 import Link from 'next/link';
 import PatientDashboardClient from './PatientDashboardClient';
 
+import { redirect } from 'next/navigation';
+
 const PAGE_SIZE = 12;
 
 async function fetchInitialPatients(): Promise<{ patients: Patient[]; hasMore: boolean }> {
@@ -26,6 +28,11 @@ async function fetchInitialPatients(): Promise<{ patients: Patient[]; hasMore: b
 }
 
 export default async function ExplorePage() {
+
+  if ( 1 === 1 )  {
+    redirect('/');
+  }
+
   const { patients, hasMore } = await fetchInitialPatients();
 
   return (
